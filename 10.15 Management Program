@@ -1,0 +1,201 @@
+package sawonManagement_t;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+
+public class SawonSalary {
+
+	
+		String msg[] = {"부서", "성명", "본봉", "수당" };
+		String department[] = {"영업", "총무" , "인사"};
+		int department_total[] = new int[3]; //부서별합계
+		int super_total; //최종합계
+		
+		//영업부 설정
+		String y_name[];
+		int y_pay1[]; //영업부서본봉
+		int y_pay2[]; //수당
+		int y_total_pay[]; //본봉 + 수당  = 개인별 총합
+		
+			
+		//총무부 설정
+		String c_name[];
+		int c_pay1[]; //영업부서본봉
+		int c_pay2[]; //수당
+		int c_total_pay[]; //본봉 + 수당 
+			
+		//인사부 설정
+		String i_name[];
+		int i_pay1[]; //영업부서본봉
+		int i_pay2[]; //수당
+		int i_total_pay[]; //본봉 + 수당 
+		
+		
+		BufferedReader br = new BufferedReader (new InputStreamReader(System.in));
+		
+		
+		public void person_Num() throws NumberFormatException, IOException {
+			System.out.println("영업부서의 사원 수를 입력 >>");
+			int length1 = Integer.parseInt(br.readLine());
+			y_name = new String[length1];
+			y_pay1 = new int[length1];
+			y_pay2 = new int[length1];
+			y_total_pay = new int[length1]; 
+			
+			System.out.println("총무부서의 사원 수를 입력 >>");
+			int length2 = Integer.parseInt(br.readLine()); //부서별로 인원이 다를 수 있으니까 length2
+			c_name = new String[length2];
+			c_pay1 = new int[length2];
+			c_pay2 = new int[length2];
+			c_total_pay = new int[length2]; 
+			
+			System.out.println("인사부서의 사원 수를 입력 >>");
+			int length3 = Integer.parseInt(br.readLine());
+			i_name = new String[length3];
+			i_pay1 = new int[length3];
+			i_pay2 = new int[length3];
+			i_total_pay = new int[length3]; 
+			
+		}
+
+//		[INPUT 데이터입력]
+		private void inputer() throws IOException {
+//			[영업부서입력]
+			for(int i=0; i<y_name.length; i++) {
+				System.out.println(department[0]+"부서의"+(i+1)+"사원의 정보를 입력하세요"); //[0] 영업부
+				System.out.println("=========================================");
+				System.out.println(msg[1] + "입력 : ");
+				y_name[i] = br.readLine(); //	이름
+				System.out.println(msg[2] + "입력 : ");
+				y_pay1[i] = Integer.parseInt(br.readLine()); //	본봉
+				System.out.println(msg[3] + "입력 : ");
+				y_pay2[i] = Integer.parseInt(br.readLine()); //	수당
+			}
+			System.out.println();
+			
+//			[총무부서입력]
+			for(int i=0; i<c_name.length; i++) {
+				System.out.println(department[1]+"부서의"+(i+1)+"사원의 정보를 입력하세요"); //[0] 영업부
+				System.out.println("=========================================");
+				System.out.println(msg[1] + "입력 : ");
+				c_name[i] = br.readLine(); //	이름
+				System.out.println(msg[2] + "입력 : ");
+				c_pay1[i] = Integer.parseInt(br.readLine()); //	본봉
+				System.out.println(msg[3] + "입력 : ");
+				c_pay2[i] = Integer.parseInt(br.readLine()); //	수당
+				}
+				System.out.println();
+			
+//			[인사부서입력]	
+				for(int i=0; i<c_name.length; i++) {
+				System.out.println(department[2]+"부서의"+(i+1)+"사원의 정보를 입력하세요"); //[0] 영업부
+				System.out.println("=========================================");
+				System.out.println(msg[1] + "입력 : ");
+				i_name[i] = br.readLine(); //	이름
+				System.out.println(msg[2] + "입력 : ");
+				i_pay1[i] = Integer.parseInt(br.readLine()); //	본봉
+				System.out.println(msg[3] + "입력 : ");
+				i_pay2[i] = Integer.parseInt(br.readLine()); //	수당
+				}
+				System.out.println();
+			}
+		
+							
+		 
+		
+//		[개인별 TOTAL 합계]
+//		[영업팀]
+		private void total() {
+		for(int i=0; i<y_total_pay.length; i++) {
+				y_total_pay[i] = y_pay1[i] + y_pay2[i];
+			}
+//		[총무팀]
+		for(int i=0; i<c_total_pay.length; i++) {
+		c_total_pay[i] = c_pay1[i] + c_pay2[i];
+					
+				}	
+//		[인사팀]
+		
+		for(int i=0; i<i_total_pay.length; i++) {
+		i_total_pay[i] = i_pay1[i] + i_pay2[i];						
+					}		
+		}
+		
+//		[부서별 TOTAL 합계]
+//		[영업팀총합]
+		private void department_total() {
+			for(int i=0; i < y_total_pay.length; i++) {
+				department_total[0] += y_total_pay[i];
+			}
+			super_total += department_total[0];
+			
+//		[총무부총합]	
+			for(int i=0; i < c_total_pay.length; i++) {
+				department_total[1] += c_total_pay[i];
+			}
+			super_total += department_total[1];
+			
+//		[인사부총합]	
+			for(int i=0; i < i_total_pay.length; i++) {
+				department_total[2] += i_total_pay[i];
+			}
+			super_total += department_total[2];
+		}
+		
+		
+				
+//		[출력]
+		private void display_print() {
+//			[영업팀 출력]
+			System.out.println("=======================================================");
+			System.out.println(department[0] + "부서 정보 출력");
+			System.out.println(msg[0] + "\t" + msg[1] + "\t" + msg[2] + "\t" + msg[3] + "\t" + "합계");
+			
+			for(int i=0; i<y_name.length; i++) {
+				System.out.println(department[0] + "\t" + y_name[i] + "\t" + y_pay1[i] + "\t" + y_pay2[i] +"\t" + y_total_pay[i]);
+			}
+			
+			System.out.println(department[0] +"부서합계 :" + department_total[0]);
+			
+//			[총무팀 출력]
+			System.out.println("=======================================================");
+			System.out.println(department[1] + "부서 정보 출력");
+			System.out.println(msg[0] + "\t" + msg[1] + "\t" + msg[2] + "\t" + msg[3] + "\t" + "합계");
+			
+			for(int i=0; i<y_name.length; i++) {
+				System.out.println(department[1] + "\t" + c_name[i] + "\t" + c_pay1[i] + "\t" + c_pay2[i] +"\t" + c_total_pay[i]);
+			}
+			
+			System.out.println(department[0] +"부서합계 :" + department_total[1]);
+			
+//			[인사팀출력]
+			System.out.println("=======================================================");
+			System.out.println(department[2] + "부서 정보 출력");
+			System.out.println(msg[0] + "\t" + msg[1] + "\t" + msg[2] + "\t" + msg[3] + "\t" + "합계");
+			
+			for(int i=0; i<y_name.length; i++) {
+				System.out.println(department[2] + "\t" + i_name[i] + "\t" + i_pay1[i] + "\t" + i_pay2[i] +"\t" + i_total_pay[i]);
+			}
+			
+			System.out.println(department[0] +"부서합계 :" + department_total[2]);
+			System.out.println("■ 총 부서별 합계 : " + super_total);
+			System.out.println("=======================================================");
+				}
+	
+	
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		SawonSalary ss = new SawonSalary();
+		ss.person_Num(); //	부서별 사원 수 입력
+		ss.inputer(); // 실제 데이터 입력 data input
+		ss.total(); //	개인별총합
+		ss.department_total(); //	부서별총합
+		ss.display_print();
+
+		
+		
+	}
+
+
+}
